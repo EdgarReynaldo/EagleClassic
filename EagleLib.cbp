@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="EagleLib" />
+		<Option makefile="makefile" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="build/lib/eagle_d.dll" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="build/lib" />
+				<Option object_output="build/obj/Dynamic/Debug/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-DDEBUGMODE" />
+				</Compiler>
+				<Linker>
+					<Add option="-lalleg44-debug.dll" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="postbuildcopy_debug.bat" />
+					<Mode after="always" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Release">
+				<Option output="build/lib/eagle_r.dll" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="build/lib" />
+				<Option object_output="build/obj/Dynamic/Release/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wall" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-lalleg44.dll" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="postbuildcopy_release.bat" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Profiling">
+				<Option output="build/lib/eagle_p.dll" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="build/lib" />
+				<Option object_output="build/obj/Dynamic/Profiling/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-pg" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg -lgmon" />
+					<Add option="-lalleg44-profile.dll" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="postbuildcopy_profiling.bat" />
+				</ExtraCommands>
+			</Target>
+			<Target title="DebugStatic">
+				<Option output="build/lib/libeagle_d.a" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="" />
+				<Option object_output="build/obj/Static/Debug/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-DDEBUGMODE" />
+					<Add option="-DALLEGRO_STATICLINK" />
+				</Compiler>
+				<Linker>
+					<Add option="-lalleg-debug-static" />
+					<Add option="-lkernel32" />
+					<Add option="-luser32" />
+					<Add option="-lgdi32" />
+					<Add option="-lcomdlg32" />
+					<Add option="-lole32" />
+					<Add option="-ldinput" />
+					<Add option="-lddraw" />
+					<Add option="-ldxguid" />
+					<Add option="-lwinmm" />
+					<Add option="-ldsound" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="postbuildcopy_debugstatic.bat" />
+				</ExtraCommands>
+			</Target>
+			<Target title="ReleaseStatic">
+				<Option output="build/lib/libeagle_r.a" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="" />
+				<Option object_output="build/obj/Static/Release/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add option="-DALLEGRO_STATICLINK" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-lalleg" />
+					<Add option="-lkernel32" />
+					<Add option="-luser32" />
+					<Add option="-lgdi32" />
+					<Add option="-lcomdlg32" />
+					<Add option="-lole32" />
+					<Add option="-ldinput" />
+					<Add option="-lddraw" />
+					<Add option="-ldxguid" />
+					<Add option="-lwinmm" />
+					<Add option="-ldsound" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="postbuildcopy_releasestatic.bat" />
+				</ExtraCommands>
+			</Target>
+			<Target title="ProfilingStatic">
+				<Option output="build/lib/libeagle_p.a" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="" />
+				<Option object_output="build/obj/Static/Profiling/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-pg" />
+					<Add option="-DALLEGRO_STATICLINK" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg -lgmon" />
+					<Add option="-lalleg-profile-static" />
+					<Add option="-lkernel32" />
+					<Add option="-luser32" />
+					<Add option="-lgdi32" />
+					<Add option="-lcomdlg32" />
+					<Add option="-lole32" />
+					<Add option="-ldinput" />
+					<Add option="-lddraw" />
+					<Add option="-ldxguid" />
+					<Add option="-lwinmm" />
+					<Add option="-ldsound" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="postbuildcopy_profilingstatic.bat" />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<VirtualTargets>
+			<Add alias="All" targets="Debug;Release;Profiling;DebugStatic;ReleaseStatic;ProfilingStatic;" />
+			<Add alias="AllDynamic" targets="Debug;Release;Profiling;" />
+			<Add alias="AllStatic" targets="DebugStatic;ReleaseStatic;ProfilingStatic;" />
+		</VirtualTargets>
+		<Compiler>
+			<Add directory="include" />
+		</Compiler>
+		<Unit filename="Copyright.txt" />
+		<Unit filename="DirExists.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="EagleFAQ.txt" />
+		<Unit filename="EagleLicense.txt" />
+		<Unit filename="Fixdfiles.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="GUI_Working_Notes.txt" />
+		<Unit filename="cleanforrelease.bat" />
+		<Unit filename="copydlls.bat" />
+		<Unit filename="copymakedlls.bat" />
+		<Unit filename="fix.bat" />
+		<Unit filename="fix.sh" />
+		<Unit filename="include/Eagle.hpp" />
+		<Unit filename="include/Eagle/AllegroSetup.hpp" />
+		<Unit filename="include/Eagle/AllegroUtilities.hpp" />
+		<Unit filename="include/Eagle/Area.hpp" />
+		<Unit filename="include/Eagle/BitmapHandler.hpp" />
+		<Unit filename="include/Eagle/BitmapUtility.hpp" />
+		<Unit filename="include/Eagle/Blending.hpp" />
+		<Unit filename="include/Eagle/Blitting.hpp" />
+		<Unit filename="include/Eagle/ClipBoard.hpp" />
+		<Unit filename="include/Eagle/Color.hpp" />
+		<Unit filename="include/Eagle/Drawing.hpp" />
+		<Unit filename="include/Eagle/EagleCredits.hpp" />
+		<Unit filename="include/Eagle/Error.hpp" />
+		<Unit filename="include/Eagle/FileWork.hpp" />
+		<Unit filename="include/Eagle/GfxModeHandler.hpp" />
+		<Unit filename="include/Eagle/GuiCode.hpp" />
+		<Unit filename="include/Eagle/GuiCode/Animation.hpp" />
+		<Unit filename="include/Eagle/GuiCode/BitmapViewer.hpp" />
+		<Unit filename="include/Eagle/GuiCode/ButtonWidget.hpp" />
+		<Unit filename="include/Eagle/GuiCode/Camera.hpp" />
+		<Unit filename="include/Eagle/GuiCode/DropDownList.hpp" />
+		<Unit filename="include/Eagle/GuiCode/FileSelectorDialog.hpp" />
+		<Unit filename="include/Eagle/GuiCode/GfxModeDialog.hpp" />
+		<Unit filename="include/Eagle/GuiCode/IconButton.hpp" />
+		<Unit filename="include/Eagle/GuiCode/ListBox.hpp" />
+		<Unit filename="include/Eagle/GuiCode/MenuWidget.hpp" />
+		<Unit filename="include/Eagle/GuiCode/RadioButtonWidget.hpp" />
+		<Unit filename="include/Eagle/GuiCode/ScrollBarWidget.hpp" />
+		<Unit filename="include/Eagle/GuiCode/SliderWidget.hpp" />
+		<Unit filename="include/Eagle/GuiCode/TabGroup.hpp" />
+		<Unit filename="include/Eagle/GuiCode/TextInput.hpp" />
+		<Unit filename="include/Eagle/GuiCode/TextWidget.hpp" />
+		<Unit filename="include/Eagle/GuiCode/TitleBar.hpp" />
+		<Unit filename="include/Eagle/GuiCode/UtilityWidgets.hpp" />
+		<Unit filename="include/Eagle/GuiCode/WidgetBase.hpp" />
+		<Unit filename="include/Eagle/GuiCode/WidgetColorset.hpp" />
+		<Unit filename="include/Eagle/GuiCode/WidgetHandler.hpp" />
+		<Unit filename="include/Eagle/GuiCode/WidgetMessage.hpp" />
+		<Unit filename="include/Eagle/InputHandler.hpp" />
+		<Unit filename="include/Eagle/Logging.hpp" />
+		<Unit filename="include/Eagle/Math.hpp" />
+		<Unit filename="include/Eagle/MouseHandler.hpp" />
+		<Unit filename="include/Eagle/MultiArray.hpp" />
+		<Unit filename="include/Eagle/Resource.hpp" />
+		<Unit filename="include/Eagle/ResourceRegistry.hpp" />
+		<Unit filename="include/Eagle/Sound.hpp" />
+		<Unit filename="include/Eagle/StringWork.hpp" />
+		<Unit filename="include/Eagle/TextDisplay.hpp" />
+		<Unit filename="include/Eagle/TextEntryWidget.hpp" />
+		<Unit filename="include/Eagle/TileMap.hpp" />
+		<Unit filename="include/Eagle/key_handler.h" />
+		<Unit filename="include/Eagle/timer_handler.h" />
+		<Unit filename="installlibs.bat" />
+		<Unit filename="makefile">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="makefile.mgw" />
+		<Unit filename="makefile.nix" />
+		<Unit filename="makefile.version" />
+		<Unit filename="postbuildcopy_debug.bat" />
+		<Unit filename="postbuildcopy_debugstatic.bat" />
+		<Unit filename="postbuildcopy_profiling.bat" />
+		<Unit filename="postbuildcopy_profilingstatic.bat" />
+		<Unit filename="postbuildcopy_release.bat" />
+		<Unit filename="postbuildcopy_releasestatic.bat" />
+		<Unit filename="src/AllegroSetup.cpp" />
+		<Unit filename="src/AllegroUtilities.cpp" />
+		<Unit filename="src/Area.cpp" />
+		<Unit filename="src/BitmapHandler.cpp" />
+		<Unit filename="src/BitmapUtility.cpp" />
+		<Unit filename="src/Blending.cpp" />
+		<Unit filename="src/Blitting.cpp" />
+		<Unit filename="src/Color.cpp" />
+		<Unit filename="src/Drawing.cpp" />
+		<Unit filename="src/Eagle.cpp" />
+		<Unit filename="src/EagleCredits.cpp" />
+		<Unit filename="src/Error.cpp" />
+		<Unit filename="src/Experimental/Word.cpp" />
+		<Unit filename="src/Experimental/Word.hpp" />
+		<Unit filename="src/FileWork.cpp" />
+		<Unit filename="src/GfxModeHandler.cpp" />
+		<Unit filename="src/GuiCode/Animation.cpp" />
+		<Unit filename="src/GuiCode/BitmapViewer.cpp" />
+		<Unit filename="src/GuiCode/ButtonWidget.cpp" />
+		<Unit filename="src/GuiCode/Camera.cpp" />
+		<Unit filename="src/GuiCode/DropDownList.cpp" />
+		<Unit filename="src/GuiCode/FileSelectorDialog.cpp" />
+		<Unit filename="src/GuiCode/GfxModeDialog.cpp" />
+		<Unit filename="src/GuiCode/IconButton.cpp" />
+		<Unit filename="src/GuiCode/ListBox.cpp" />
+		<Unit filename="src/GuiCode/MenuWidget.cpp" />
+		<Unit filename="src/GuiCode/RadioButtonWidget.cpp" />
+		<Unit filename="src/GuiCode/ScrollBarWidget.cpp" />
+		<Unit filename="src/GuiCode/SliderWidget.cpp" />
+		<Unit filename="src/GuiCode/TabGroup.cpp" />
+		<Unit filename="src/GuiCode/TextInput.cpp" />
+		<Unit filename="src/GuiCode/TextWidget.cpp" />
+		<Unit filename="src/GuiCode/TitleBar.cpp" />
+		<Unit filename="src/GuiCode/UtilityWidgets.cpp" />
+		<Unit filename="src/GuiCode/WidgetBase.cpp" />
+		<Unit filename="src/GuiCode/WidgetColorset.cpp" />
+		<Unit filename="src/GuiCode/WidgetHandler.cpp" />
+		<Unit filename="src/GuiCode/WidgetMessage.cpp" />
+		<Unit filename="src/InputHandler.cpp" />
+		<Unit filename="src/Logging.cpp" />
+		<Unit filename="src/Math.cpp" />
+		<Unit filename="src/MouseHandler.cpp" />
+		<Unit filename="src/Resource.cpp" />
+		<Unit filename="src/ResourceRegistry.cpp" />
+		<Unit filename="src/Sound.cpp" />
+		<Unit filename="src/StringWork.cpp" />
+		<Unit filename="src/TextDisplay.cpp" />
+		<Unit filename="src/TileMap.cpp" />
+		<Unit filename="src/key_handler.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/osx/ClipBoard.mm" />
+		<Unit filename="src/platform/win/ClipBoard.cpp" />
+		<Unit filename="src/timer_handler.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

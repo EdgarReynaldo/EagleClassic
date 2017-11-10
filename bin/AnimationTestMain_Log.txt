@@ -1,0 +1,22 @@
+Animation Test
+
+
+$$$ Allegro initialization successful.
+$$$ Close button callback successfully set.
+$$$ Desktop resolution and color depth determined to be 1920 X 1080 X 32
+$$$ Allegro keyboard initialization successful.
+$$$ Allegro timer initialization successful.
+$$$ Allegro mouse initialization successful. The mouse in use has 8 buttons.
+
+Gfx_mode_handler attempting new mode...
+
+Starting change_res(2 (GFX_AUTODETECT_WINDOWED) , 800 , 600 , 32 , mode = CRM_DIRECT)
+    Success changing to new resolution
+GfxModeHandler : Successfully set the SW_PAUSE display switch mode.
+GfxModeHandler : Current display switch mode is SWITCH_PAUSE
+GfxModeHandler : Successfully set the display callback in.
+GfxModeHandler : Successfully set the display callback out.
+Change Mode Flags : FULL_SUCCESS
+Running Eagle credits #2
+Running Eagle credits #1
+Animation test complete. Exiting.

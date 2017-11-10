@@ -1,0 +1,499 @@
+
+
+
+
+Ideas :
+
+
+Todo :
+
+   Finish BitmapHandler class.
+      - Add sub bitmap support
+
+   Add the BitmapMemoryManager to the project?
+      - Probably unnecessary, but might be a nice addition. BitmapHandlers own their own memory though,
+          so it wouldn't benefit them.
+
+   Write a short WidgetMemoryManager similar to BitmapMemoryManager that can track the dynamic widgets memory.
+   This way WidgetHandler wouldn't have to change much, only have a WidgetMemoryManager to track the widgets that
+   need to be freed when they're not being used anymore.
+
+   Write Joystick handler?
+      - Leave this for someone else who is so inclined.
+
+   Write Graphics mode handler?
+      - Could be useful, will probably do it eventually, mostly done.
+
+   Think about changing all the functions that take an ostream& to using OutputLog() instead.
+   Or, perhaps a Logger class with an overloaded operator<< that acts like an ostream.
+
+
+
+/** NOTES :
+   Widgets that contain other widgets can set the sub widgets parent pointers to themselves and overload
+   the QueueUserMessage function to intercept their messages and react accordingly.
+
+   Translucent GUI's always need their background redrawn before they are. This means users may need to redraw the background
+   before they call WidgetHandler::Display(). For nested WidgetHandlers this is automatic.
+
+   MinGW 3.4.5 has a bug in it that causes cc1plus.exe to hang up when compiling the Eagle library with the -O2 flag.
+*/
+
+/** DONE :
+   Added increment mechanism to the Slider widget for key presses.
+
+   Removed the three extra colors from the WIDGETCOLOR enumeration. No library widget will use them.
+
+   Added support for double key/mbtn/jsbtn clicks and for setting a double click duration.
+   if (key_click(KEY_*) && (since_last_click(KEY_*) < double_click_duration)) {double_click[KEY_*] = true;}
+
+   Menu icons now toggle on their own based on the user's setting.
+
+   Modified TextWidget to work with custom fonts.
+
+   ListBox widget done.
+
+   Fixed crash in text input widgets due to caret position overrun when backspace is pressed and
+   improved caret display for text input widgets.
+
+   Added mouse wheel scrolling to ListBox and FolderTree.
+
+   Added ability to ListBox to control whether multiple selections are allowed.
+
+   Fixed minor bug with drawing the background for BG_ROUNDED widget handlers.
+
+   Improved rounded rectangle widget handler background by giving it an outline function and allowed for custom
+   corner radii.
+
+   Added ability to set the rounding percent for ROUNDED_BTN Buttons.
+
+   Made sure all widgets with text are able to set the font.
+      - Button widgets use custom fonts now.
+      - Radio Button widgets use custom fonts now.
+      - Menu widgets use custom fonts now.
+      - Tabs use custom fonts now.
+
+   Added extension filter to the file selector.
+
+   Added mouse_w tracking to the mouse handler - horizontal mouse scroll. It doesn't seem to be tracked
+   on Windows though.
+
+   Added horizontal scroll detection and movement to widgets with horizontal scroll bars. It doesn't
+   seem to work on Windows though.
+
+   Drawing targets are now reset for all widgets when a widget handlers buffer is rebuilt.
+
+   Fixed bugs in TextWidget where the position setting functions weren't overloaded to reset the text position
+   and where DisplayOn() would draw to dest instead of the target bitmap.
+
+   Fixed minor bug where parent GUIs would take the focus if one of their children took the focus.
+
+   Wrote title bar for widget handler that includes a title, minimize/maximize button, and a close button.
+
+   Created a library header that includes all the headers in the library.
+
+   Added a simple module to create sounds, although only 8 bit mono output in Allegro seems to work right.
+
+   Added no gap circle, ring, and gradient ring functions to library under Drawing.hpp
+
+   GUI title bar background is now made with a vline gradient, brighter if in focus.
+
+    If a gui owns a widget with the focus, it now has the focus too.
+
+   See if DX3 has any signal for horizontal wheel scroll and see if it can be added to Allegro.
+   See wmouse.c for details. There is no mention of DIMOFS_W in dinput.h so it must not be supported.
+
+   Enumerated the options for drawing the focus outline. Thick or thin , dotted or solid, or invisible.
+
+   WidgetHandler upgrade/maintenance
+      - Check Redraw function that checks for overlapping widgets and sets redraw flags is complete.
+      - Dirty backgrounds are now drawn separately and before the widgets are.
+
+   BitmapViewer now sets the BG_REDRAW flag when its view is scrolled and its view's draw type is transparent or translucent.
+
+   BitmapViewer no longer uses an internal buffer to draw its bitmap. The source bitmap is drawn in the same way as the
+   draw type of the BitmapHandler it uses a pointer to.
+
+   WidgetHandler::CheckRedraw() completed, now widgets that have the redraw and bgredraw flags set will also set
+   the redraw flags for any widgets behind or in front of them.
+
+   Changing the position or size of a widget no longer sets the redraw all flag for its parent but calls
+   CheckRedraw on the old position instead which is in keeping with a dirty rectangle method and saves
+   on the amount of redraw being done.
+
+   Created a TextAnimation class and a BitmapAnimation class.
+
+   Created a StateAnimation class that uses a map<string , AnimationBase*>. This makes it easier to transition
+   between related animations for a character or object.
+
+   Wrote a function to create a font template bitmap.
+
+   Wrote replace_color functions (replace_mask).
+
+   Wrote functions to combine two rectangles and to consolidate a list of rectangles for Widget Handler to use
+   when redrawing the background rectangles. Widget Handler now uses the rectangle consolidation routine.
+
+   Implemented vertical text drawing functions.
+
+   Text widgets can use a color font by setting WidgetColorset[TXTCOL] to -1.
+
+   Finished adding focus drawing type ability to WidgetHandler. Wrote function to set the focus type.
+
+   Fixed up WidgetHandler to include a dirty background rectangle list. Added a widget's area to the list when a widget moves,
+   and updated CheckRedraw and DisplayOn to include use of the dirty background rectangle list.
+
+   Fixed up WidgetHandler so that the background Bitmap Handler uses the same memory type as the buffer Bitmap Handler.
+   This way if they are both video bitmaps and GFX_HW_VRAM_BLIT is set then the background redraw can be accelerated.
+
+   Added constructors to BitmapHandler that load an image from disk.
+
+   Tested stretch_blit_smooth and masked_stretch_blit_smooth. Stretching bitmaps is comparable to using
+   allegro's stretch_blit and masked_stretch_blit, but shrinking bitmaps has much higher quality using the
+   smooth functions rather than allegro's. The smooth masked version tends to make sprites grow somewhat though.
+
+   Wrote SimpleBitmapAnimation class that can take advantage of hardware acceleration or tint the bitmap.
+
+   Wrote Camera , SBCamera , and ZoomCamera classes and added a SBCamera to the WidgetHandler.
+
+   Completed ResourceRegistry and made BitmapHandler and Resource classes use the registry.
+
+   Wrote a typed list box widget template, as well as typed radio and typed drop down list. This allows the user to
+   select objects directly instead of keeping track of which objects map to which string.
+
+   Wrote invert_rgb and invert_value routines for blitting.cpp.
+
+   Fixed the clipping routines in the blitting functions.
+
+   Wrote an animated tile map.
+
+   Fixed up the widget handler's title bar so it was in the right place when minimized and added title bar resizing
+   when the widget handler's font is changed.
+
+   Title bar can now draw an alpha gradient when its color depth is 32.
+
+   Overhauled TextWidget to take a position instead of an area. It's area is now calculated automatically and
+   no longer clips because it doesn't need to.
+
+   Added minimum width and height to WidgetBase and added functions to set and get the minimums.
+
+   WidgetHandler's focus cycling now only gives focus to widgets that are in view.
+
+   WidgetBase now includes a HasGui() and GetGui() function to facilitate changing the focus of a WidgetHandler.
+
+   Wrote file selection dialog and a graphics mode selection dialog.
+
+   Made sure all allegro gui functions have a widget counterpart.
+
+   Added copyright and license info to each source and header file.
+
+   Made a standard Exception class named EagleError that logs the error.
+
+   Fixed up RadioButtonWidget. Now you can derive your own widgets from RadioButtonItemBase and WidgetBase together.
+
+   WidgetHandler doesn't take the focus when clicked on. It should also take the focus when it's title bar is clicked on.
+
+   WidgetHandler::CheckRedraw now ignores invisible widgets.
+
+   Menu widgets now send a WidgetMsg when they are opened, this way you can set the enabled/disabled state of each menu item
+   when the menu is opened (useful for copy/paste menu items and context menus)
+
+   WidgetBase now has a WidgetBase* messagehandler variable that is an alternate parent that will handle widget messages. This allows
+   a different widget to be the parent widget but at the same time have it's messages handled by someone else - this is necessary
+   for a context menu - it should appear in the top level gui, but its messages should be handled by the widget that spawned it.
+
+   Cleaned up usage of QueueUserMessage a bit.
+
+   Added Root() , RootGui() , and NearestParentGui() to WidgetBase.
+
+   Investigated why scrolling the view of the main gui results in the lower left ZoomCamera redrawing itself repeatedly
+   when it doesn't need to.
+      - Redefined ZoomCamera's SetRedrawFlag so a breakpoint could be set there and tracked what was calling it.
+      - It's because clear_background is being set when the view is changed. Because Camera::SetViewPos queued a message
+           which led to TitleBar::ResetPosition being called, which called SetRedrawAllFlag.
+      - Fixed. Scrolling is much smoother now.
+
+   Invisible widgets can no longer set the redraw flag.
+
+   Fixed deficiency with WidgetHandler's hover mechanism. A widget that drew outside of its boundaries (menus)
+   did not properly receive the hover. Added a virtual IsMouseOver() to WidgetBase to fix it. Redefined IsMouseOver()
+   for Menu hierarchy and for DropDownList.
+
+   Made a separate list for drawing order to allow the widget with focus to be displayed before other widgets.
+
+   Added ability to open a drop down list above as well as below its selected item display area.
+
+   WidgetHandler's Display() now ignores invisible widgets, as well as CheckInputs() ignoring disabled widgets.
+
+   RadioButton now automatically resizes its area to fit the RadioButtonItems.
+
+   Created an Area base class with a Contains(int x , int y) member function and derived Rectangle from it.
+
+   Fixed WidgetHandler's PreviousFocus() and NextFocus() to only give focus to widgets in view. Added
+   WidgetHandler::InView(WidgetBase* w).
+
+   Overwrite mode in the TextInput widget allows you to enter more characters than it allows. FIXED.
+
+   Added palette loading support to Resource class.
+
+   Camera no longer triggers redraw on color changes.
+
+   Wrote a trans_blit function and added this function call to Camera.
+
+   Menu class no longer lets button clicks slip through to widgets underneath.
+
+   Added a drawing buffer to Zoom Camera so it doesn't have to restretch every time the REDRAW flag is set.
+
+   Renamed Ticker to something that wouldn't clash with users code...
+
+   Moved and removed ScrollButtonWidget.cpp and ScrollButtonWidget.hpp to old folder.
+
+*/
+
+/** TODO :
+
+   Consider making a specialized set of functions to change the dimensions of a WidgetHandler since
+   they need to resize their buffer and background which might fail.
+
+   Make sure every widget that accepts the focus takes the focus when clicked on. Continue from the file selection dialog.
+
+   Consider movement constraints in the WidgetBase movement functions. Perhaps they should check with their parent
+   to see whether the destination area is free first.
+
+*/
+
+/* TODO : PRIORITY
+
+   
+
+   GRRR Something is wrong with the file list List Box in the File Selection Dialog - it is really slow to redraw. ???
+
+   Add ability to display text vertically in TextWidgets.
+
+   In MouseHandler, change script file loading for pointer setup to config file loading. (Search GetLinePN)
+
+   Find out why file list box of the FileSelectorDialog scrolls so slowly compared to the folder tree on the left.
+
+   Things to add to GeneralWidgetTestMain :
+      Support for changing fonts
+      Support for resizing widgets
+      Support for loading backgrounds / fonts
+
+   Create MouseHandler?
+
+   Create MoverWidget?
+
+   Make separator widgets that split an area in two either horizontally or vertically for two widgets.
+      - For the FileSelectorDialog, use a horizontal splitter widget to divide the file tree and the folder contents panes.
+
+
+   Make composite widgets that combine two widgets together, like for a widget with a decorative frame.
+
+   WidgetHandler needs a WidgetBase* GetWidgetByName(std::string name) function.
+
+   Add a string name member to BitmapHandler. This way a Resource Registry can be queried for a bitmap by name.
+
+   The BitmapHandler clone functions should fail an assert if the bitmap being cloned is not valid.
+
+   See about removing any drawing done by widgets using BG_COL. This way the background color can be more versatile.
+      ? Add a second BG_COL? GUI_BG_COL?
+      !? Give WidgetHandler's a background color of their own? This seems simpler, and won't break existing code.
+
+   Write a GuiScroller class that contains a gui and two scrollbars used to scroll the view of the gui.
+
+   Write GUIRadio that holds several guis and shows one at a time.
+
+   Add mod_hsv_blit and mod_hsl_blit to Blitting.cpp as well as rgb_to_hsl and hsl_to_rgb to Color.cpp.
+
+   Convert color picker into a widget. (progcode\allegro\GUI_misc_widgets\ColorPickers\HueWheel)
+
+   If I want MSVC users to be able to compile my code, I'll need to change all my function declarations
+   in the dynamic build to use __declspec( dllexport ) and __declspec( dllimport) and maybe __cdecl?
+
+   Make sure all widgets respect the state flags. CheckInputs should check ENABLED and DisplayOn should check VISIBLE.
+
+   Import multiline text from KruskalMaze.
+
+   Write a multiline TextWidget and a multiline text editor.
+
+   Add abiity to use custom font in RunEagleCredits#.
+
+   TextWidgets should be able to have their text selected and copied.
+
+   Add MultiArray and Array to Eagle, as well as the Clipboard.
+
+   Joystick handler.
+
+   Combine ButtonBase with Button.
+
+   Rename BUTTON_TYPE enum to BUTTON_SHAPE.
+   Rename BUTTONTYPE enum to BUTTON_TYPE.
+
+   Moving and resizing a TabGroup has strange behaviour and odd side effects. Lots of dirty drawing.
+
+   Buttons allow their text to be drawn outside their borders when they are small. (No clipping)
+
+   ListBox doesn't reset it's vertical scroll bar handle properly when resized.
+
+   Consider making GetWidgetAt() a virtual function in WidgetBase.
+
+   There needs to be a clearly defined function set for setting all of a WidgetHandler's widget's colors, and
+   for only setting the colors of widgets that are not using their own colors.
+      Current behaviors :
+         * UseWidgetColorset sets all the colors of every widget
+
+         * UseWidgetColorsetConditional sets all the colors of every widget not using its own colors
+
+         * SetWidgetColors sets the colors for every widget
+
+         * SetWidgetColorsConditional sets the colors for every widget not using its own colors
+
+
+         * SetWidgetColor only sets a color for itself, regardless of whether it is using that color
+      Desired behaviors :
+         * UseColorsetAlways
+         * UseColorsetConditional
+         * SetPersonalColors - assigns to and uses personal colorset
+              - for containers, it uses UseColorsetConditional on them?
+         * SetPersonalColor - modifies personal colorset and uses it
+         ? Disabled colors? Send widget message when a widget is disabled? (WidgetMsg(this , TOPIC_WIDGET , WIDGET_[DIS | EN] ABLED))
+              Let the user change them himself if he wants to
+
+
+*/
+
+/* TODO : MAJOR FEATURES
+   Create a background class that stores border and background sizes and rectangles.
+   Create a background drawing class that accepts a background class as input when drawing.
+   Give WidgetBase a pointer to the drawing class and have it store the background data.
+   Make DisplayOn non-virtual and have it call a private virtual DoDisplayOn function.
+
+
+*/
+   Think about removing all DIALOG_REDRAW_ME flags and replacing it with SetRedrawFlag calls.
+
+   Remove SBCamera? Keep for now.
+
+   Write a modal? dialog runner. It accepts a gui, and returns the address of the widget that closed it.
+   (Make sure ALLOW_CLOSE is set!) It has two BitmapHandlers, one to copy the screen when it is run, and a buffer?
+   to blit to the screen. It should call gui.Init(), gui.Ready(), and gui.Shutdown() when appropriate.
+
+   Consider : Is it possible to only draw widgets that are in view? How would this work with the CheckRedraw function?
+
+   Give WidgetBase a public list<Rectangle> Areas() function that returns all the areas a widget is currently drawing
+      over. Then make WidgetHandler::CheckRedraw use it.
+
+   Make sure PrintTo is redefined for all widgets.
+
+   Overhaul MenuWidget.cpp :
+      - SetFont, SetArea, and SetColors
+
+   Contemplate a secondary WidgetColorset for WidgetBase for colors for a disabled widget. Have a second WidgetColorset*
+   that points to the disabled colors, and a third pointer that points to the current WidgetColorset.
+
+   For widgets that overdraw their area, maybe use WidgetHandler::MakeAreaDirty instead of SetRedrawAllFlag()?
+
+   Consider making a global variable for slider/scroller/scrollbar width. I think every widget uses 16 so far...
+
+   Add minimum width/height to the handle of a scroller/slider.
+      - Change Scroller's scroll bar handle to have a minimum length (5?)
+
+   Investigate why an executable dynamically linked to Eagle in debug/release/profiling? mode does not terminate upon exit.
+      - This doesn't explain it, but manually calling allegro_exit solves this problem.
+
+   Add a WidgetBase* GetWidgetAt(int x , int y) function.
+
+   Think about using WidgetHandler::operator<<(DESTROY_OPTION) to set whether a widget is destroyed when removed.
+      - Make a global enum DESTROY_OPTION {DESTROY_WHEN_DONE = 0 , DO_NOT_DESTROY = 1};
+      - This way all widgets that handle memory optionally can use it
+      - Use it for RadioButton.
+
+   Think about precalculating a list of each widget's overlapping widgets to optimize CheckRedraw.
+      - How would WidgetHandler know when to recalculate the overlap list? It would need to be notified of
+        its widgets area changes
+
+   Set the draw priority for MenuBar, MenuBarItem, Menu, and TitleBar to MID_DISPLAY_PRIORITY.
+
+   Take a closer look at WidgetHandler::SetFocusState - are infinite loops possible?
+      - Test SetFocusState
+
+   WidgetHandler::WidgetIndex should use HasGui and GetGui instead of using dynamic_cast to TabGroup and WidgetHandler.
+      - Same goes for WidgetHandler::GiveWidgetFocus.
+
+   Consider constraining widget movement to be limited to parent's area.
+
+   Integrate SCROLLER_HANDLE_STYLE into all widgets using Scroller and Scrollbar Widgets.
+
+   Change DrawGuiTriangle* to only use 2 colors (don't draw the foreground rectangle)
+
+   Replace 'const Rectangle& position' with 'Rectangle position'
+
+   Give the button class an absolute minimum width and height?
+
+   Make all FONT* widget members be named text_font, and make sure all SetFont functions use FONT* textfont.
+   - Add a SetFont(FONT* textfont) function to WidgetBase.
+   - TabGroup needs to be fixed to match this syntax.
+   ! ...\include>grep -r -E -I -n text_font .\*.*
+   ! ...\src>grep -r -E -I -n textfont .\*.*
+
+
+   ### Create a load_bitmap_font_from_memory function, copy code from allegro's load_bitmap_font.
+      - grab_font_from_bitmap already does this -
+
+   Check the CreateSound function for proper time and frequency based access to the WaveForm array.
+
+   Make a Widget that displays Sample* data so the actual sound waves can be seen and make a new test program for it.
+
+   Change the widgets that use BitmapHandlers to use the resource_registry.
+   Also, need to set the registry for IconButton's BitmapHandler arrays.
+
+   Add Palette support to Resource class.
+
+   Scavenge FontHandler from TextEntryWidget.hpp
+
+   Consider merging ButtonBase into Button.
+
+   TabGroup's area setting functions should be changed so they change their gui's area.
+
+   TabGroup needs to set its minimum dimensions when adding new tabs.
+
+   In the Animation classes, figure out how to assign the base class parts in operator=.
+
+   Perhaps add in an older version of TextWidget that clips its drawing area.
+   Actually, instead of that, write a version of TextWidget that has a BitmapHandler buffer and stretches the buffer onto
+   the area that it occupies.
+
+
+   Widgets that use BitmapHandlers need to have a function to set the blending type of their BitmapHandlers.
+
+   Write a Loader class that loads pseudo XML into property lists and creates new objects.
+
+   Import data handling from ShadedShapes (endian functions)
+      Might not be useful, since allegro already has functions to handle r/w of le/be data in different sizes.
+
+   A WidgetHandler with focus should draw a FGCOL outline and one without focus should draw a SDCOL outline.
+   The buttons on the title bar may need to shrink by one pixel to fit the outline.
+
+   Remove TextEntryWidget.hpp or turn it into a console widget.
+
+   Scavenge ButtonWidget::PreDrawDefaultPics() from ScrollButtonWidget.cpp and remove the file or turn
+   it into an ArrowButton widget. Instead, move it to Drawing.cpp and rename it to DrawArrow.
+
+   Maybe import string parsing functions from the function trace parser program.
+
+   Write Decorative widgets like rectangle, line, and text outline.
+
+   Refine DataSync class. Not really necessary with messaging system.
+
+
+/** TODO : Future
+   - optimize all the different blits in Blitting.cpp for mem/vid/different color depths
+
+
+*/
+
+/** TODO : Future conversion to Allegro 5
+   Create an InputState class, and pass it to CheckInputs()
+
+
+*/
+

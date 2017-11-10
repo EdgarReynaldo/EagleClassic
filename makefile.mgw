@@ -1,0 +1,30 @@
+#Platform specific file for MinGW
+
+FULLVERSION = $(MAJORVERSION)$(MINORVERSION)$(REVISION)
+
+ECHO = @echo
+#TEST = $(ECHO) #comment to enable build
+FAKE = .fake
+#SLASH := $(subst \ ,\,$(basename $(addprefix \,$(FAKE))))
+SLASH := $(basename $(addprefix \,$(FAKE)))
+COPY = $(TEST) copy /Y
+REMOVE = $(TEST) del /Q
+REMDIR = $(TEST) rmdir /S /Q
+MKDIR = $(TEST) mkdir
+AR = ar.exe
+GMON = -lgmon
+FIXDFILES = Fixdfiles.exe
+DIREXISTS = DirExists.exe
+EXTRACFLAGS =
+
+SHAREDLIBEXT = .dll
+
+PLATFORM = WINDOWS
+
+ifndef MINGDIR
+    $(error MINGDIR environment variable not set! 'set MINGDIR=c:\mingw')
+endif
+
+ifndef INSTALLDIR
+   INSTALLDIR = $(MINGDIR)
+endif

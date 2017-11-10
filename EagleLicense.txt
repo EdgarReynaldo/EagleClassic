@@ -1,0 +1,32 @@
+/*
+
+License for use of the Eagle libary :
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software freely to use, copy, modify, merge, and distribute it, as long as
+the copyright included in the source files stays there and this license is
+distributed along with your package.
+
+Restrictions :
+1) You may not claim the author of this library is anyone but me (Edgar Reynaldo).
+2) You may not sell my library, but you may sell any software that uses the library.
+
+Requests :
+1) Give the Eagle library credit in your software. See EagleCredits.hpp for functions
+that show the animated Eagle logo.
+2) Include links to the Eagle library website on your website or in your software.
+3) If you profit from using my library, I ask that you donate an appropriate amount 
+to the Eagle project on the Eagle website. This software took several years to write,
+and it would be nice to see a return on my investment of time.
+
+Disclaimer :
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/

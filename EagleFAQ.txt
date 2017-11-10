@@ -1,0 +1,7 @@
+
+
+Q1. My widgets don't refresh and change displayed states the way I expect them to.
+A1a - Your widget might not be calling ClearRedrawFlag at the end of it's DisplayOn function.
+A1b - Your widget might not be calling SetRedrawFlag when it needs too.
+A1c - If your widget contains other widgets it may not have set their parent to 'this' : widget.SetParent(this);
+
