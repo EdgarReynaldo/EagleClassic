@@ -179,6 +179,7 @@
 			<Option link="0" />
 		</Unit>
 		<Unit filename="GUI_Working_Notes.txt" />
+		<Unit filename="build.sh" />
 		<Unit filename="cleanforrelease.bat" />
 		<Unit filename="copydlls.bat" />
 		<Unit filename="copymakedlls.bat" />
