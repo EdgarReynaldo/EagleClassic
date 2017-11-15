@@ -19,7 +19,7 @@ int main(int argc , char** argv) {
    const int dh = 600;
    GfxModeData gfxmode(GFX_AUTODETECT_WINDOWED , dw , dh , DCD());
 
-   gfx_mode_handler.Setup(SW_PAUSE , 0 , 0);
+   gfx_mode_handler.Setup(SW_BACKGROUND , 0 , 0);
    int ret = gfx_mode_handler.ChangeToMode(gfxmode , CRM_DIRECT);
    if (ret != FULL_SUCCESS) {
       OutputLog() << "Couldn't change to requested graphics mode." << endl;
