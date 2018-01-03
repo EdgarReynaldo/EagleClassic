@@ -8,9 +8,9 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="build/lib/eagle_d.dll" prefix_auto="0" extension_auto="0" />
+				<Option output="cbbuild/lib/eagle4-debug" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).dll" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME)" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build/lib" />
-				<Option object_output="build/obj/Dynamic/Debug/" />
+				<Option object_output="cbbuild/obj/Dynamic/Debug/" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -23,15 +23,11 @@
 				<Linker>
 					<Add option="-lalleg44-debug.dll" />
 				</Linker>
-				<ExtraCommands>
-					<Add after="postbuildcopy_debug.bat" />
-					<Mode after="always" />
-				</ExtraCommands>
 			</Target>
 			<Target title="Release">
-				<Option output="build/lib/eagle_r.dll" prefix_auto="0" extension_auto="0" />
+				<Option output="cbbuild/lib/eagle4" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).dll" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME)" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build/lib" />
-				<Option object_output="build/obj/Dynamic/Release/" />
+				<Option object_output="cbbuild/obj/Dynamic/Release/" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -49,9 +45,9 @@
 				</ExtraCommands>
 			</Target>
 			<Target title="Profiling">
-				<Option output="build/lib/eagle_p.dll" prefix_auto="0" extension_auto="0" />
+				<Option output="cbbuild/lib/eagle4-profile" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).dll" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME)" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build/lib" />
-				<Option object_output="build/obj/Dynamic/Profiling/" />
+				<Option object_output="cbbuild/obj/Dynamic/Profiling/" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -64,14 +60,11 @@
 					<Add option="-pg -lgmon" />
 					<Add option="-lalleg44-profile.dll" />
 				</Linker>
-				<ExtraCommands>
-					<Add after="postbuildcopy_profiling.bat" />
-				</ExtraCommands>
 			</Target>
 			<Target title="DebugStatic">
-				<Option output="build/lib/libeagle_d.a" prefix_auto="0" extension_auto="0" />
+				<Option output="cbbuild/lib/libeagle-debug-static.a" prefix_auto="0" extension_auto="0" />
 				<Option working_dir="" />
-				<Option object_output="build/obj/Static/Debug/" />
+				<Option object_output="cbbuild/obj/Static/Debug/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -81,27 +74,11 @@
 					<Add option="-DDEBUGMODE" />
 					<Add option="-DALLEGRO_STATICLINK" />
 				</Compiler>
-				<Linker>
-					<Add option="-lalleg-debug-static" />
-					<Add option="-lkernel32" />
-					<Add option="-luser32" />
-					<Add option="-lgdi32" />
-					<Add option="-lcomdlg32" />
-					<Add option="-lole32" />
-					<Add option="-ldinput" />
-					<Add option="-lddraw" />
-					<Add option="-ldxguid" />
-					<Add option="-lwinmm" />
-					<Add option="-ldsound" />
-				</Linker>
-				<ExtraCommands>
-					<Add after="postbuildcopy_debugstatic.bat" />
-				</ExtraCommands>
 			</Target>
 			<Target title="ReleaseStatic">
-				<Option output="build/lib/libeagle_r.a" prefix_auto="0" extension_auto="0" />
+				<Option output="cbbuild/lib/libeagle-static.a" prefix_auto="0" extension_auto="0" />
 				<Option working_dir="" />
-				<Option object_output="build/obj/Static/Release/" />
+				<Option object_output="cbbuild/obj/Static/Release/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -112,26 +89,12 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add option="-lalleg" />
-					<Add option="-lkernel32" />
-					<Add option="-luser32" />
-					<Add option="-lgdi32" />
-					<Add option="-lcomdlg32" />
-					<Add option="-lole32" />
-					<Add option="-ldinput" />
-					<Add option="-lddraw" />
-					<Add option="-ldxguid" />
-					<Add option="-lwinmm" />
-					<Add option="-ldsound" />
 				</Linker>
-				<ExtraCommands>
-					<Add after="postbuildcopy_releasestatic.bat" />
-				</ExtraCommands>
 			</Target>
 			<Target title="ProfilingStatic">
-				<Option output="build/lib/libeagle_p.a" prefix_auto="0" extension_auto="0" />
+				<Option output="cbbuild/lib/libeagle-profile-static.a" prefix_auto="0" extension_auto="0" />
 				<Option working_dir="" />
-				<Option object_output="build/obj/Static/Profiling/" />
+				<Option object_output="cbbuild/obj/Static/Profiling/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -142,21 +105,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
-					<Add option="-lalleg-profile-static" />
-					<Add option="-lkernel32" />
-					<Add option="-luser32" />
-					<Add option="-lgdi32" />
-					<Add option="-lcomdlg32" />
-					<Add option="-lole32" />
-					<Add option="-ldinput" />
-					<Add option="-lddraw" />
-					<Add option="-ldxguid" />
-					<Add option="-lwinmm" />
-					<Add option="-ldsound" />
 				</Linker>
-				<ExtraCommands>
-					<Add after="postbuildcopy_profilingstatic.bat" />
-				</ExtraCommands>
 			</Target>
 		</Build>
 		<VirtualTargets>
@@ -166,7 +115,12 @@
 		</VirtualTargets>
 		<Compiler>
 			<Add directory="include" />
+			<Add directory="Allegro4/include" />
 		</Compiler>
+		<Linker>
+			<Add directory="cbbuild/lib" />
+			<Add directory="Allegro4/lib" />
+		</Linker>
 		<Unit filename="Copyright.txt" />
 		<Unit filename="DirExists.cpp">
 			<Option compile="0" />
@@ -179,12 +133,6 @@
 			<Option link="0" />
 		</Unit>
 		<Unit filename="GUI_Working_Notes.txt" />
-		<Unit filename="build.sh" />
-		<Unit filename="cleanforrelease.bat" />
-		<Unit filename="copydlls.bat" />
-		<Unit filename="copymakedlls.bat" />
-		<Unit filename="fix.bat" />
-		<Unit filename="fix.sh" />
 		<Unit filename="include/Eagle.hpp" />
 		<Unit filename="include/Eagle/AllegroSetup.hpp" />
 		<Unit filename="include/Eagle/AllegroUtilities.hpp" />
@@ -194,6 +142,7 @@
 		<Unit filename="include/Eagle/Blending.hpp" />
 		<Unit filename="include/Eagle/Blitting.hpp" />
 		<Unit filename="include/Eagle/ClipBoard.hpp" />
+		<Unit filename="include/Eagle/Clipboard.hpp" />
 		<Unit filename="include/Eagle/Color.hpp" />
 		<Unit filename="include/Eagle/Drawing.hpp" />
 		<Unit filename="include/Eagle/EagleCredits.hpp" />
@@ -237,19 +186,6 @@
 		<Unit filename="include/Eagle/TileMap.hpp" />
 		<Unit filename="include/Eagle/key_handler.h" />
 		<Unit filename="include/Eagle/timer_handler.h" />
-		<Unit filename="installlibs.bat" />
-		<Unit filename="makefile">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="makefile.mgw" />
-		<Unit filename="makefile.nix" />
-		<Unit filename="makefile.version" />
-		<Unit filename="postbuildcopy_debug.bat" />
-		<Unit filename="postbuildcopy_debugstatic.bat" />
-		<Unit filename="postbuildcopy_profiling.bat" />
-		<Unit filename="postbuildcopy_profilingstatic.bat" />
-		<Unit filename="postbuildcopy_release.bat" />
-		<Unit filename="postbuildcopy_releasestatic.bat" />
 		<Unit filename="src/AllegroSetup.cpp" />
 		<Unit filename="src/AllegroUtilities.cpp" />
 		<Unit filename="src/Area.cpp" />
@@ -263,7 +199,6 @@
 		<Unit filename="src/EagleCredits.cpp" />
 		<Unit filename="src/Error.cpp" />
 		<Unit filename="src/Experimental/Word.cpp" />
-		<Unit filename="src/Experimental/Word.hpp" />
 		<Unit filename="src/FileWork.cpp" />
 		<Unit filename="src/GfxModeHandler.cpp" />
 		<Unit filename="src/GuiCode/Animation.cpp" />
